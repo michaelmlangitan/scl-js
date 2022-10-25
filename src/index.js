@@ -9,7 +9,7 @@ const sclJs = {
 }
 
 Object.defineProperties(sclJs, {
-  version: { value: '1.0.0', enumerable: true },
+  version: { value: '1.1.0', enumerable: true },
   chordMap: { value: chordMap, enumerable: true },
   FLAT_SYMBOL: { value: chordMap.symbols.flat, enumerable: true },
   SHARP_SYMBOL: { value: chordMap.symbols.sharp, enumerable: true },
