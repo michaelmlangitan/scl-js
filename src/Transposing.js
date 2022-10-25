@@ -69,4 +69,4 @@ Transposing.prototype.each = function (callback) {
   }
 }
 
-module.exports = Transposing
+export default Transposing

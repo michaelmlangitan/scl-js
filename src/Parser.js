@@ -187,4 +187,4 @@ Parser.prototype.popState = function () {
   this.state = this.states.pop()
 }
 
-module.exports = Parser
+export default Parser

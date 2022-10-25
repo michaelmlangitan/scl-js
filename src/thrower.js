@@ -19,13 +19,9 @@ class SyntaxError extends ExtendableError {
   }
 }
 
-module.exports = {
-  throwSyntaxError (message, lineno, cursor, contents) {
-    throw new SyntaxError(message, lineno, cursor, contents)
-    // throw { name: 'SyntaxError', message, lineno, cursor, contents }
-  },
-  throwLogicException (message) {
-    throw new Error(message)
-    // throw { name: 'LogicException', message }
-  }
+export function throwSyntaxError (message, lineno, cursor, contents) {
+  throw new SyntaxError(message, lineno, cursor, contents)
+}
+export function throwLogicException (message) {
+  throw new Error(message)
 }

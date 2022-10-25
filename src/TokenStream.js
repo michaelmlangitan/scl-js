@@ -21,4 +21,4 @@ TokenStream.prototype.currentToken = function () {
   return this.tokens[this.current]
 }
 
-module.exports = TokenStream
+export default TokenStream

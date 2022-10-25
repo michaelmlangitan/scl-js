@@ -227,4 +227,4 @@ Lexer.prototype.getLastToken = function () {
   return this.tokens[this.tokens.length - 1]
 }
 
-module.exports = Lexer
+export default Lexer

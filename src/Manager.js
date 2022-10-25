@@ -1,4 +1,4 @@
-import { extend } from './util'
+import util from './util'
 import Lexer from './Lexer'
 import Parser from './Parser'
 import TokenStream from './TokenStream'
@@ -17,7 +17,7 @@ const defaultOptions = {
  * @constructor
  */
 function Manager (options) {
-  this.options = extend(defaultOptions, options || {})
+  this.options = util.extend(defaultOptions, options || {})
   this.options.transposeStep = Math.max(Math.abs(this.options.transposeStep), 1)
 }
 
@@ -94,4 +94,4 @@ Manager.prototype.setTransposeStep = function (step) {
   return this
 }
 
-module.exports = Manager
+export default Manager

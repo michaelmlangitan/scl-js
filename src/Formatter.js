@@ -62,4 +62,4 @@ Formatter.prototype.chordFormat = function (chord) {
   return strChord
 }
 
-module.exports = Formatter
+export default Formatter

@@ -9,7 +9,7 @@ const sclJs = {
 }
 
 Object.defineProperties(sclJs, {
-  version: { value: '1.1.0', enumerable: true },
+  version: { value: '1.1.3', enumerable: true },
   chordMap: { value: chordMap, enumerable: true },
   FLAT_SYMBOL: { value: chordMap.symbols.flat, enumerable: true },
   SHARP_SYMBOL: { value: chordMap.symbols.sharp, enumerable: true },
@@ -18,4 +18,4 @@ Object.defineProperties(sclJs, {
   SONG_NEW_LINE: { value: SONG_NEW_LINE, enumerable: true }
 })
 
-module.exports = sclJs
+export default sclJs

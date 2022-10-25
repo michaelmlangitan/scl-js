@@ -38,4 +38,4 @@ Stripper.prototype.stripSong = function (song, ignoreNewLine) {
   return ignoreNewLine ? lyrics.replace(/  +/g, ' ') : lyrics.replace(/\s\s+/g, ' ')
 }
 
-module.exports = Stripper
+export default Stripper
