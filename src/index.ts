@@ -1,7 +1,7 @@
 import Manager from "./Manager";
 import {chordMap, Options, SONG_ELEMENT_NAME, SONG_NEW_LINE, SONG_PARAGRAPH} from "./functionality";
 
-const VERSION = '1.1.5'
+const VERSION = '1.1.6'
 const endpoint = {
     newManager(options?: Options) {
         return new Manager(options)
