@@ -12,7 +12,7 @@ export default class Transposing {
     }
 
     private static nameOfSymbol(symbol: string): string {
-        return chordMap.symbols.flat === symbol ? symbol : chordMap.symbols.sharp
+        return chordMap.symbols.flat === symbol ? 'flat' : 'sharp'
     }
 
     transposeUp(): void {
