@@ -13,6 +13,8 @@ export default class Stripper {
     stripScl(str: string, ignoreNewLine?: boolean): string {
         const lyrics = (typeof str === "string" ? str : '').replace(regex, '')
 
-        return ignoreNewLine ? lyrics.replace(/  +/g, ' ') : lyrics.replace(/\s\s+/g, ' ').trim()
+        return ignoreNewLine ?
+            lyrics.replace(/  +/g, ' ') :
+            lyrics.replace(/\r?\n/g, ' ').replace(/\s\s+/g, ' ').trim()
     }
 }
