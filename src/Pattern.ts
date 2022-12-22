@@ -1,0 +1,10 @@
+export const PATTERN_CHORD_ROOT = '([cdefgab])'
+export const PATTERN_CHORD_SYMBOL = '(#|b)?'
+export const PATTERN_CHORD_TYPE = '(m|5|7|maj7|m7|sus4|add9|sus2|7sus4|7#9|9)?'
+export const PATTERN_CHORD_SLASH = '(?:\\/([cdefgab])(#|b)?)?'
+export const PATTERN_ELEMENT_NAME = '[\\w\\d][\\w\\d\\s]+';
+export const PATTERN_CHORD = '\\s*' + PATTERN_CHORD_ROOT + PATTERN_CHORD_SYMBOL + PATTERN_CHORD_TYPE + PATTERN_CHORD_SLASH + '\\s*'
+export const PATTERN_BRACKET_START = '\\[|\\{'
+export const CHORD_TAG = `\\[${PATTERN_CHORD}\\]`
+export const MULTI_CHORDS_TAG = `\\[${PATTERN_CHORD}(?:\\-${PATTERN_CHORD})*\\]`
+export const ELEMENT_NAME_TAG = `\\{\\s*${PATTERN_ELEMENT_NAME}\\}`

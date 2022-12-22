@@ -1,15 +1,10 @@
 import {TOKEN_CHORD, TOKEN_EOF, TOKEN_TEXT, TOKEN_ELEMENT_NAME, TOKEN_NEW_LINE, Token, Chord} from "./functionality";
 import {SclSyntaxException, LogicException} from "./Exception";
+import {PATTERN_BRACKET_START, PATTERN_CHORD, PATTERN_ELEMENT_NAME} from "./Pattern";
 
 const STATE_DATA = 0
 const STATE_ELEMENT_NAME = 1
 const STATE_CHORD = 2
-const PATTERN_CHORD_ROOT = '([cdefgab])'
-const PATTERN_CHORD_SYMBOL = '(#|b)?'
-const PATTERN_CHORD_TYPE = '(m|5|7|maj7|m7|sus4|add9|sus2|7sus4|7#9|9)?'
-const PATTERN_CHORD_SLASH = '(?:\\/([cdefgab])(#|b)?)?'
-const PATTERN_CHORD = '\\s*' + PATTERN_CHORD_ROOT + PATTERN_CHORD_SYMBOL + PATTERN_CHORD_TYPE + PATTERN_CHORD_SLASH + '\\s*'
-const PATTERN_BRACKET_START = '\\[|\\{'
 const PATTERN_LEX_CHORD = '^\\s*\\]'
 type Position = { tag: string, index: number }
 
@@ -105,9 +100,9 @@ export default class Lexer {
     }
 
     private elementNameExpression(): void {
-        const matches = /^\s*([\w\d]+)\s*/.exec(this.contents.substring(this.cursor))
+        const matches = new RegExp(`^\\s*(${PATTERN_ELEMENT_NAME})`).exec(this.contents.substring(this.cursor))
         if (matches) {
-            this.pushToken(TOKEN_ELEMENT_NAME, matches[1])
+            this.pushToken(TOKEN_ELEMENT_NAME, matches[1].trim())
             this.moveCursor(matches[0])
         }
 
@@ -116,7 +111,7 @@ export default class Lexer {
             return
         }
 
-        throw new SclSyntaxException(`Unexpected "${this.contents[this.cursor]}".`, this.lineno, this.cursor, this.contents)
+        throw new SclSyntaxException(`Unexpected character "${this.contents[this.cursor]}".`, this.lineno, this.cursor, this.contents)
     }
 
     private lexChord(): void {
@@ -155,7 +150,7 @@ export default class Lexer {
             return
         }
 
-        throw new SclSyntaxException(`Unexpected "${this.contents[this.cursor]}".`, this.lineno, this.cursor, this.contents)
+        throw new SclSyntaxException(`Unexpected character "${this.contents[this.cursor]}".`, this.lineno, this.cursor, this.contents)
     }
 
     private pushChord(root: string, symbol?: string, type?: string, slashRoot?: string, slashSymbol?: string): void {
