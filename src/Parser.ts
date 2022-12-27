@@ -100,22 +100,22 @@ export default class Parser {
             const chords = Array.isArray(token.value) ? token.value : []
             this.chordsCorrector(chords, token.lineno, token.cursor)
 
-            const next = this.tokenStream.next()
+            let next = this.tokenStream.next()
+            let chordsRepeater = null
+
+            if (next.type === TOKEN_CHORDS_REPEATER) {
+                chordsRepeater = next.value
+                next = this.tokenStream.next()
+            }
+
             if (next.type === TOKEN_TEXT) {
-                this.pushParagraph(chords, typeof next.value === "string"?next.value:null, null)
+                this.pushParagraph(chords, typeof next.value === "string"?next.value:null, chordsRepeater)
                 this.tokenStream.next()
             } else {
-                this.pushParagraph(chords, null, null)
+                this.pushParagraph(chords, null, chordsRepeater)
             }
         } else if (token.type === TOKEN_TEXT) {
             this.pushParagraph([], typeof token.value === "string"?token.value:null, null)
-            this.tokenStream.next()
-        } else if (token.type === TOKEN_CHORDS_REPEATER) {
-            const paragraphItem = this.paragraph[this.paragraph.length - 1]
-            if (paragraphItem && paragraphItem.chords.length) {
-                paragraphItem.chordsRepeater = typeof token.value === "string" ? token.value : null
-            }
-
             this.tokenStream.next()
         }
         else if (token.type === TOKEN_NEW_LINE) {
@@ -127,6 +127,8 @@ export default class Parser {
             this.pushToSong(SONG_PARAGRAPH, this.paragraph)
             this.paragraph = []
             this.popState()
+        }  else if (token.type === TOKEN_CHORDS_REPEATER) {
+            throw new SclSyntaxException(`Repetition of chords "(${token.value})" should be written after the chords tag.`, token.lineno, token.cursor)
         }
     }
 

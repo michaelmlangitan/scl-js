@@ -30,6 +30,10 @@ export default class Formatter {
                 paragraph += '[' + Formatter.chordFormat(content.chords[0]) + ']'
             }
 
+            if (content.chordsRepeater) {
+                paragraph += '('+content.chordsRepeater+')'
+            }
+
             if (content.lyric) {
                 paragraph += content.lyric
             }

@@ -17,10 +17,6 @@ export default class TokenStream {
         return this.tokens[this.current].type === TOKEN_EOF
     }
 
-    end(): void {
-        this.current = this.tokens.length - 1
-    }
-
     currentToken(): Token {
         return this.tokens[this.current]
     }
