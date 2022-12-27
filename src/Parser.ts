@@ -8,7 +8,7 @@ import {
     SONG_NEW_LINE,
     chordMap,
     ChordSymbolsValue,
-    Chord, SongData, SongDataParagraph
+    Chord, SongData, SongDataParagraph, TOKEN_CHORDS_REPEATER
 } from './functionality';
 import {SclSyntaxException, LogicException} from "./Exception";
 import TokenStream from "./TokenStream";
@@ -65,7 +65,7 @@ export default class Parser {
     private initialState(): void {
         const type = this.tokenStream.currentToken().type
 
-        if (type === TOKEN_TEXT || type === TOKEN_CHORD) {
+        if (type === TOKEN_TEXT || type === TOKEN_CHORD || type === TOKEN_CHORDS_REPEATER) {
             this.pushState(STATE_PARAGRAPH)
         } else if (type === TOKEN_ELEMENT_NAME) {
             this.pushState(STATE_HEADING)
@@ -102,15 +102,23 @@ export default class Parser {
 
             const next = this.tokenStream.next()
             if (next.type === TOKEN_TEXT) {
-                this.pushParagraph(chords, typeof next.value === "string"?next.value:null)
+                this.pushParagraph(chords, typeof next.value === "string"?next.value:null, null)
                 this.tokenStream.next()
             } else {
-                this.pushParagraph(chords, null)
+                this.pushParagraph(chords, null, null)
             }
         } else if (token.type === TOKEN_TEXT) {
-            this.pushParagraph([], typeof token.value === "string"?token.value:null)
+            this.pushParagraph([], typeof token.value === "string"?token.value:null, null)
             this.tokenStream.next()
-        } else if (token.type === TOKEN_NEW_LINE) {
+        } else if (token.type === TOKEN_CHORDS_REPEATER) {
+            const paragraphItem = this.paragraph[this.paragraph.length - 1]
+            if (paragraphItem && paragraphItem.chords.length) {
+                paragraphItem.chordsRepeater = typeof token.value === "string" ? token.value : null
+            }
+
+            this.tokenStream.next()
+        }
+        else if (token.type === TOKEN_NEW_LINE) {
             this.pushToSong(SONG_PARAGRAPH, this.paragraph)
             this.paragraph = []
             this.tokenStream.next()
@@ -122,8 +130,8 @@ export default class Parser {
         }
     }
 
-    private pushParagraph(chords: Chord[], lyric: string): void {
-        this.paragraph.push({chords, lyric})
+    private pushParagraph(chords: Chord[], lyric: string, chordsRepeater?: string): void {
+        this.paragraph.push({chords, lyric, chordsRepeater})
     }
 
     private static indexOfBaseChord(chord: string, symbolName: string): number {

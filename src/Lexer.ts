@@ -1,10 +1,11 @@
-import {TOKEN_CHORD, TOKEN_EOF, TOKEN_TEXT, TOKEN_ELEMENT_NAME, TOKEN_NEW_LINE, Token, Chord} from "./functionality";
+import {TOKEN_CHORD, TOKEN_EOF, TOKEN_TEXT, TOKEN_ELEMENT_NAME, TOKEN_NEW_LINE, TOKEN_CHORDS_REPEATER, Token, Chord} from "./functionality";
 import {SclSyntaxException, LogicException} from "./Exception";
-import {PATTERN_BRACKET_START, PATTERN_CHORD, PATTERN_ELEMENT_NAME} from "./Pattern";
+import {PATTERN_BRACKET_START, PATTERN_CHORD, PATTERN_ELEMENT_NAME, PATTERN_CHORDS_REPEATER} from "./Pattern";
 
 const STATE_DATA = 0
 const STATE_ELEMENT_NAME = 1
 const STATE_CHORD = 2
+const STATE_CHORDS_REPEATER = 3
 const PATTERN_LEX_CHORD = '^\\s*\\]'
 type Position = { tag: string, index: number }
 
@@ -57,6 +58,9 @@ export default class Lexer {
                 case STATE_CHORD:
                     this.lexChord()
                     break
+                case STATE_CHORDS_REPEATER:
+                    this.lexChordsRepeater()
+                    break;
             }
         }
 
@@ -86,6 +90,9 @@ export default class Lexer {
                 this.chordLineno = this.lineno
                 this.chordCursor = this.cursor
                 this.pushState(STATE_CHORD)
+                break
+            case '(':
+                this.pushState(STATE_CHORDS_REPEATER)
                 break
         }
     }
@@ -151,6 +158,18 @@ export default class Lexer {
         }
 
         throw new SclSyntaxException(`Unexpected character "${this.contents[this.cursor]}".`, this.lineno, this.cursor, this.contents)
+    }
+
+    private lexChordsRepeater(): void {
+        const matches = new RegExp(`^${PATTERN_CHORDS_REPEATER}\\)`, 'i').exec(this.contents.substring(this.cursor))
+        if (matches) {
+            this.pushToken(TOKEN_CHORDS_REPEATER, matches[1], this.lineno, this.cursor)
+            this.moveCursor(matches[0])
+            this.popState()
+        } else {
+            this.cursor--;
+            this.popState()
+        }
     }
 
     private pushChord(root: string, symbol?: string, type?: string, slashRoot?: string, slashSymbol?: string): void {

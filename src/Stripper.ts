@@ -1,5 +1,5 @@
-import {CHORD_TAG, MULTI_CHORDS_TAG, ELEMENT_NAME_TAG} from "./Pattern";
-const REGEX = `${CHORD_TAG}|${ELEMENT_NAME_TAG}|${MULTI_CHORDS_TAG}`
+import {CHORD_TAG, MULTI_CHORDS_TAG, ELEMENT_NAME_TAG, CHORDS_REPEATER_TAG} from "./Pattern";
+const REGEX = `${CHORD_TAG}|${ELEMENT_NAME_TAG}|${MULTI_CHORDS_TAG}|${CHORDS_REPEATER_TAG}`
 
 export default class Stripper {
     stripScl(str: string, ignoreNewLine?: boolean): string {

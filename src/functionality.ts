@@ -4,7 +4,7 @@ type ChordTypes = { name: string, alias: string }
 export type ChordSymbolsValue = '#' | 'b'
 export type Chord = { root: string, symbol?: string, type?: string, slashRoot?: string, slashSymbol?: string }
 export type Token = { type: number, value?: string | Chord[], lineno?: number, cursor?: number }
-export type SongDataParagraph = { chords: Chord[], lyric: string }
+export type SongDataParagraph = { chords: Chord[], lyric: string, chordsRepeater?: string }
 export type SongData = {
     type: number,
     contents: SongDataParagraph[] | string
@@ -38,6 +38,7 @@ export const TOKEN_TEXT = 0
 export const TOKEN_NEW_LINE = 1
 export const TOKEN_ELEMENT_NAME = 2
 export const TOKEN_CHORD = 3
+export const TOKEN_CHORDS_REPEATER = 4;
 export const SONG_ELEMENT_NAME = 1
 export const SONG_PARAGRAPH = 2
 export const SONG_NEW_LINE = 3
