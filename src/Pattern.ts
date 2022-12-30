@@ -1,6 +1,6 @@
 export const PATTERN_CHORD_ROOT = '([cdefgab])'
 export const PATTERN_CHORD_SYMBOL = '(#|b)?'
-export const PATTERN_CHORD_TYPE = '(m|5|7|maj7|m7|sus4|add9|sus2|7sus4|7#9|9)?'
+export const PATTERN_CHORD_TYPE = '(maj7|m7|m|7sus4|7#9|7|add9|9|sus2|sus4|5)?'
 export const PATTERN_CHORD_SLASH = '(?:\\/([cdefgab])(#|b)?)?'
 export const PATTERN_ELEMENT_NAME = '[\\w\\d][\\w\\d\\s]+';
 export const PATTERN_CHORD = '\\s*' + PATTERN_CHORD_ROOT + PATTERN_CHORD_SYMBOL + PATTERN_CHORD_TYPE + PATTERN_CHORD_SLASH + '\\s*'

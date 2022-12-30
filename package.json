@@ -1,6 +1,6 @@
 {
   "name": "@michaelmlangitan/scl-js",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Song Chord Language for javascript",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
